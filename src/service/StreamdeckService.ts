@@ -12,7 +12,10 @@ export async function getState() {
     },
   });
   const data = await resp.json();
-  if (isStreamDeckConfig(data)) return data;
+  if (isStreamDeckConfig(data)) {
+    data.buttonSettings = await normalizeButtonSettings(data.buttonSettings);
+    return data;
+  }
   throw new Error("StreamDeck config not found");
 }
 
@@ -37,4 +40,31 @@ export async function getButtonArray() {
   }
 
   throw new Error("StreamDeck config not found");
+}
+
+async function normalizeButtonSettings(buttonSettings: ButtonSetting[]) {
+  const resp = await fetch(`${adress}api/streamdeck-info`);
+  const data = (await resp.json()) as StreamDeckInfo;
+  for (let i = 0; i < data.KEY_COLUMNS * data.KEY_ROWS; i++) {
+    buttonSettings[i] = buttonSettings[i] || {
+      type: "button",
+      icons: [],
+      protocol: "MQTT",
+      typeSpecifigConfig: {},
+    };
+  }
+  return buttonSettings;
+}
+
+export async function setState(config: StreamdeckConfig) {
+  const resp = await fetch(`${adress}api/state`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(config),
+  });
+  if (resp.status !== 200) {
+    throw new Error("Failed to update config");
+  }
 }

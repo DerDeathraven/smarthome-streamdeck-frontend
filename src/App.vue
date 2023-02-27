@@ -3,20 +3,16 @@
     <Navbar></Navbar>
     <Suspense>
       <div class="flex w-full h-full justify-center items-center">
-        <StreamDeck></StreamDeck>
+        <StreamDeck class="w-full"></StreamDeck>
+        <SettingsPanel></SettingsPanel>
       </div>
     </Suspense>
   </div>
 </template>
 <script setup lang="ts">
-import { onMounted } from "vue";
 import Navbar from "./components/Navbar.vue";
-import { getState } from "./service/StreamdeckService";
 import StreamDeck from "./components/Streamdeck.vue";
-onMounted(async () => {
-  const data = await getState();
-  console.log(data);
-});
+import SettingsPanel from "./components/SettingsPanel.vue";
 </script>
 <style scoped>
 .appWrapper {

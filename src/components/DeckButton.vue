@@ -2,6 +2,7 @@
   <div
     class="buttonWrapper"
     :class="config.typeSpecifigConfig.state ? 'green' : 'red'"
+    @click="handleClick()"
   >
     {{ normalizedIndex }}
   </div>
@@ -27,6 +28,9 @@ async function generateConfig(): Promise<ButtonSetting> {
     protocol: "MQTT",
     typeSpecifigConfig: {},
   };
+}
+function handleClick() {
+  stateStore.activeIndex = props.normalizedIndex;
 }
 </script>
 
