@@ -29,4 +29,8 @@ onMounted(() => {
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+.active {
+  outline-color: var(--highlight);
+}
+</style>

@@ -27,13 +27,11 @@ import { useStateStore } from "../stores/StateStore";
 import ButtonSettings from "./settings/ButtonSettings.vue";
 import SwitchSettings from "./settings/SwitchSettings.vue";
 import { computed } from "vue";
-import { socket } from "../service/SocketService";
 import ActiveButtonLog from "./ActiveButtonLog.vue";
 import IconStates from "./Icons/IconStates.vue";
 const stateStore = useStateStore();
 const stateStoreRefs = storeToRefs(stateStore);
 const activeButton = stateStoreRefs.getActiveButton;
-socket.emit("test");
 const setting = computed(() => {
   if (!activeButton.value) return;
   if (activeButton.value.type == "buttonSwitch") {

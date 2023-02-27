@@ -1,6 +1,6 @@
 export type IconConfig = {
   state: string;
-  icon: string;
+  icon?: string;
   color?: string;
 };
 

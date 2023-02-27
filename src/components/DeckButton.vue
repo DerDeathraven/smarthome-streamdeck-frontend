@@ -1,9 +1,5 @@
 <template>
-  <div
-    class="buttonWrapper"
-    :class="config.typeSpecifigConfig.state ? 'green' : 'red'"
-    @click="handleClick()"
-  >
+  <div class="buttonWrapper" :class="generateClass()" @click="handleClick()">
     {{ normalizedIndex }}
   </div>
 </template>
@@ -18,6 +14,7 @@ type Prop = {
 const props = defineProps<Prop>();
 const stateStore = useStateStore();
 const config = await generateConfig();
+
 async function generateConfig(): Promise<ButtonSetting> {
   const state = await stateStore.getConfigState;
   const config = state.buttonSettings[props.normalizedIndex];
@@ -32,6 +29,16 @@ async function generateConfig(): Promise<ButtonSetting> {
 function handleClick() {
   stateStore.activeIndex = props.normalizedIndex;
 }
+
+function generateClass() {
+  const classes = [];
+  const color = config.typeSpecifigConfig.state ? "green" : "red";
+  classes.push(color);
+  const isActive =
+    stateStore.activeIndex === props.normalizedIndex ? "active" : "";
+  classes.push(isActive);
+  return classes;
+}
 </script>
 
 <style scoped lang="scss">
@@ -44,6 +51,9 @@ function handleClick() {
   }
   &.red {
     background-color: red;
+  }
+  &.active {
+    outline: 2px solid var(--highlight);
   }
 }
 </style>

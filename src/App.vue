@@ -1,5 +1,6 @@
 <template>
   <div class="appWrapper">
+    <Modal></Modal>
     <Navbar></Navbar>
     <Suspense>
       <div class="flex w-full h-full justify-center items-center">
@@ -13,6 +14,7 @@
 import Navbar from "./components/Navbar.vue";
 import StreamDeck from "./components/Streamdeck.vue";
 import SettingsPanel from "./components/SettingsPanel.vue";
+import Modal from "./components/Modal/Modal.vue";
 </script>
 <style scoped>
 .appWrapper {
