@@ -19,12 +19,11 @@ const stateStore = useStateStore();
 const buttonMatrix = await getButtonArray();
 onMounted(() => {
   socket.on("buttonStateChange", (data) => {
-    data = Number(data);
-    if (isNaN(data)) return;
+    data = JSON.parse(data);
 
-    const button = stateStore.configState?.buttonSettings[data];
+    const button = stateStore.configState?.buttonSettings[data.index];
     if (!button) return;
-    button.typeSpecifigConfig.state = !button.typeSpecifigConfig.state;
+    button.typeSpecifigConfig.state = data.message;
   });
 });
 </script>

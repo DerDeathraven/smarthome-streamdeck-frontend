@@ -5,6 +5,7 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue";
 import { ButtonSetting } from "../model/config";
 import { useStateStore } from "../stores/StateStore";
 
@@ -13,27 +14,19 @@ type Prop = {
 };
 const props = defineProps<Prop>();
 const stateStore = useStateStore();
-const config = await generateConfig();
+const config = await stateStore.getButtonConfig(props.normalizedIndex);
+const color = computed(() => {
+  if (!config) return "#ff0000";
+  const state = config.typeSpecifigConfig.state;
+  return config.icons.find((icon) => icon.state === state)?.color || "#ff0000";
+});
 
-async function generateConfig(): Promise<ButtonSetting> {
-  const state = await stateStore.getConfigState;
-  const config = state.buttonSettings[props.normalizedIndex];
-  if (config) return config;
-  return {
-    type: "button",
-    icons: [],
-    protocol: "MQTT",
-    typeSpecifigConfig: {},
-  };
-}
 function handleClick() {
   stateStore.activeIndex = props.normalizedIndex;
 }
 
 function generateClass() {
   const classes = [];
-  const color = config.typeSpecifigConfig.state ? "green" : "red";
-  classes.push(color);
   const isActive =
     stateStore.activeIndex === props.normalizedIndex ? "active" : "";
   classes.push(isActive);
@@ -46,12 +39,7 @@ function generateClass() {
   @apply flex justify-center items-center bg-black my-2 rounded-xl;
   width: 80px;
   aspect-ratio: 1/1;
-  &.green {
-    background-color: green;
-  }
-  &.red {
-    background-color: red;
-  }
+  background-color: v-bind(color);
   &.active {
     outline: 2px solid var(--highlight);
   }
