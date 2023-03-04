@@ -1,18 +1,26 @@
 <template>
   <div class="flex flex-col">
-    <label for="path">Path</label>
+    <label for="path">Outgoing Path</label>
     <input
       type="text"
       name="path"
       v-model="activeButton!.typeSpecifigConfig.path"
-    /><br />
-    <label for="incomingPath">incomingPath</label>
+    />
+    <label for="incomingPath">Incoming Path</label>
     <input
       type="text"
       name="incomingPath"
       v-model="activeButton!.typeSpecifigConfig.incomingPath"
-    /><br />
+    />
+    <label for="onSpawn">On Bootup</label>
+    <input
+      type="text"
+      name="onSpawn"
+      v-model="activeButton!.typeSpecifigConfig.onBootup"
+      placeholder="sends on device bootup"
+    />
     <label for="message">Message</label>
+
     <input
       type="text"
       name="message"

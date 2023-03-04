@@ -6,9 +6,10 @@
     <div class="icons">
       <Icon
         v-for="(icon, id) in stateStore.getActiveButton!.icons"
-        :key="`${icon.icon}${icon.color}`"
+        :key="`${icon.icon}${icon.color}${icon.state}`"
         :icon="icon"
         @@update:state="storeRefs.getActiveButton.value!.icons[id] = $event"
+        @click="editState(id)"
       ></Icon>
       <div class="add-icon" @click="addIcon()">
         <p class="plus-icon">+</p>
@@ -37,7 +38,10 @@ async function addIcon() {
   const activeButton = storeRefs.getActiveButton.value;
   await openModal(activeButton!, icons.length - 1);
 }
-async function editIcon() {}
+async function editState(id: number) {
+  const activeButton = storeRefs.getActiveButton.value;
+  await openModal(activeButton!, id);
+}
 </script>
 
 <style scoped lang="scss">
